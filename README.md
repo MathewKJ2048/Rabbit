@@ -1,7 +1,7 @@
 # Rabbit
 
 
-An open-source recursive-descent parser generator which supports syntax directed translationLL(1) grammars, written in and compatible with java.
+An open-source recursive-descent parser generator which supports syntax directed translation of LL(1) grammars, written in and compatible with java.
 
 ## Requirements:
 
@@ -13,7 +13,7 @@ An open-source recursive-descent parser generator which supports syntax directed
 
 ### For Linux:
 
-1) Download **rabbit.jar** from [here]().
+1) Download **rabbit.jar** from [here](https://github.com/MathewKJ2048/Rabbit/blob/main/downloads/rabbit.jar?raw=true).
 2) Write the grammar in a file named **grammar.sdt** and store it along with **rabbit.jar** in the same folder.
 3) Run the following command to generate the parser:
 ```
@@ -28,8 +28,17 @@ java Parser
 
 ### For Windows:
 
-1) Download [rabbit.exe] from [here]().
-2)
+1) Download [rabbit.exe] from [here](https://github.com/MathewKJ2048/Rabbit/blob/main/downloads/rabbit.exe?raw=true).
+2) Write the grammar in a file named **grammar.sdt** and store it along with **rabbit.exe** in the same folder.
+3) Run the following command to generate the parser:
+```
+./rabbit.exe grammar.sdt Parser.java
+```
+4) Run the following commands to run the parser:
+```
+javac Parser.java
+java Parser
+```
 
 Alternatively, the same procedure used for Linux can be followed.
 
