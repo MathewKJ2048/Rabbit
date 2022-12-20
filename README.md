@@ -157,5 +157,5 @@ Here, the object associated with non-terminal `<NTij>` is of type `<Ti>`.
 
 ## Credits:
 Author: [Mathew K J](https://github.com/MathewKJ2048)  
-Testing: [Mathew K J](https://github.com/MathewKJ2048), [Abijith Shaji](https://github.com/Saangetheya)  
+Testing: [Mathew K J](https://github.com/MathewKJ2048), [Abhijith Shaji](https://github.com/Saangetheya)  
 Art: <a href="https://www.flaticon.com/free-icons/rabbit" title="rabbit icons">Rabbit icons created by Freepik - Flaticon</a>
