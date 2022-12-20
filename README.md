@@ -28,7 +28,7 @@ java Parser
 
 ### For Windows:
 
-1) Download [rabbit.exe] from [here](https://github.com/MathewKJ2048/Rabbit/blob/main/downloads/rabbit.exe?raw=true).
+1) Download **rabbit.exe** from [here](https://github.com/MathewKJ2048/Rabbit/blob/main/downloads/rabbit.exe?raw=true).
 2) Write the grammar in a file named **grammar.sdt** and store it along with **rabbit.exe** in the same folder.
 3) Run the following command to generate the parser:
 ```
