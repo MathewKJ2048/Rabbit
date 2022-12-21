@@ -141,7 +141,7 @@ Here, the object associated with non-terminal `<NTij>` is of type `<Ti>`.
 - Available features:
     - `Parser(String)` is a constructor which creates an object of class Parser and sets the string to be parsed.
     - `boolean _parse()` is a function which builds the parse tree and returns `true` if the parsing is successful.
-    -`String _parse_tree()` is a function which returns a stringified representation of the parse tree.
+    - `String _parse_tree()` is a function which returns a stringified representation of the parse tree.
     - `String _derivation(boolean)` is a function which returns a stringified derivation of the input. If the argument passed is `true`, a rightmost derivation is returned. If not, a leftmost derivation is returned.
     - `_DELIMITER` is a global String variable used to determine the separator between symbols in the stringified derivation produced by `_derivation()`.
     - `_OPEN`, `_CLOSE` and `_SPACE` are global String variables which control the representation of the stringified representation of the parse tree produced by `_parse_tree()`.
