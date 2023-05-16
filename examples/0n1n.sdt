@@ -1,0 +1,52 @@
+{
+	import java.util.Scanner;
+}
+{
+	static class Num
+	{
+		int size;
+		int value;
+		Num()
+		{
+			this.size=0;
+			this.value=0;
+		}
+	}
+	int num = 0;
+	public static void main(String[] args)
+	{
+		System.out.println("Enter input:");
+		String input = (new Scanner(System.in)).nextLine();
+		Parser p = new Parser(input);
+		if(p._parse())
+		{
+			System.out.println("n is:"+p.num);
+			System.out.println(p._derivation(true));
+		}
+		else
+		{
+			System.out.println("Syntax error");
+		}
+	}
+}
+{
+	Num S B ;
+}
+
+P -> S {num=$1.value;} ;
+
+S -> B S {
+$$ = new Num();
+$$.size = $2.size+1;
+$$.value = (1<<$2.size)*$1.value + $2.value;
+} | B {$$=$1;} ;
+
+B -> "0" {
+$$ = new Num();
+$$.size=1;
+$$.value=0;
+} | "1" {
+$$ = new Num();
+$$.size=1;
+$$.value=1;
+};

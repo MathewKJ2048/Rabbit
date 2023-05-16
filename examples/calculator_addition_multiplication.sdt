@@ -1,0 +1,67 @@
+{
+	import java.util.Scanner;
+}
+{
+	static class Int
+	{
+		int v;
+		int size;
+		Int()
+		{
+			v=0;
+			size=0;
+		}
+		Int(int d)
+		{
+			v=d;
+			size=1;
+		}
+	}
+	static class Value
+	{
+		int v;
+		Value(int x)
+		{
+			v=x;
+		}
+	}
+	public static void main(String[] args)
+	{
+		System.out.println("Enter input:");
+		String input = (new Scanner(System.in)).nextLine();
+		Parser p = new Parser(input);
+		if(p._parse())
+		{
+			System.out.println(p._derivation(true));
+		}
+		else
+		{
+			System.out.println("Syntax error");
+		}
+	}
+}
+{
+	Int NUM DIGIT ;
+	Value E T F NUM;
+}
+
+S -> E {System.out.println("Answer is: "+$1.v);};
+E -> T "+" E {
+$$ = new Value($1.v+$3.v);
+} | T {$$ = $1;};
+T -> F "*" T {
+$$ = new Value($1.v*$3.v);
+} | F {$$ = $1;};
+F -> NUM {$$=new Value($1.v);} ;
+
+NUM -> DIGIT NUM {
+$$ = new Int();
+$$.size = $2.size+1;
+$$.v = $2.v+(int)Math.pow(10,$1.size)*$1.v;
+} | DIGIT {
+$$ = $1;
+} ;
+
+DIGIT -> "0" {$$=new Int(0);} | "1" {$$=new Int(1);} | "2" {$$=new Int(2);}
+| "3" {$$=new Int(3);} | "4" {$$=new Int(4);} | "5" {$$=new Int(5);} | "6" {$$=new Int(6);}
+| "7" {$$=new Int(7);} | "8" {$$=new Int(8);} | "9" {$$=new Int(9);} ;

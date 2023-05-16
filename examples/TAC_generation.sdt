@@ -1,0 +1,131 @@
+{
+	import java.util.Scanner;
+}
+{
+	int temp = 0;
+	String new_temp()
+	{
+		temp++;
+		return "t"+(temp-1);
+	}
+	static class Exp
+	{
+		Exp e1=null;
+		Exp e2=null;
+		String code=null;
+		String root=null;
+	}
+	Exp root = null;
+	void print(Exp e)
+	{
+		if(e==null)return;
+		print(e.e1);
+		print(e.e2);
+		if(e.code!=null)System.out.println(e.code);
+	}
+	static class Int
+	{
+		int v;
+		int size;
+		Int()
+		{
+			v=0;
+			size=0;
+		}
+		Int(int d)
+		{
+			v=d;
+			size=1;
+		}
+	}
+	static class Value
+	{
+		int v;
+		Value(int x)
+		{
+			v=x;
+		}
+	}
+	public static void main(String[] args)
+	{
+		System.out.println("Enter input:");
+		String input = (new Scanner(System.in)).nextLine();
+		Parser p = new Parser(input);
+		if(p._parse())
+		{
+			p.print(p.root);
+			//System.out.println(p._derivation(true));
+		}
+		else
+		{
+			System.out.println("Syntax error");
+		}
+	}
+}
+{
+	String ALPHA VAR ALNUM ALNUMS ;
+	Int LIT DIGIT ;
+	Exp E T F ;
+}
+
+S -> E {root=$1;} ;
+E -> T "+" E {
+$$ = new Exp();
+$$.root = new_temp();
+$$.code = $$.root+"="+$1.root+"+"+$3.root;
+$$.e1=$1;
+$$.e2=$3;
+} | T {$$=$1;} ;
+T -> F "*" T {
+$$ = new Exp();
+$$.root = new_temp();
+$$.code = $$.root+"="+$1.root+"*"+$3.root;
+$$.e1=$1;
+$$.e2=$3;
+} | F {$$=$1;} ;
+F -> "(" E ")" {$$=$2;} | LIT {$$=new Exp();$$.root=""+$1.v;} | VAR {$$=new Exp();$$.root=$1;} ;
+
+
+LIT -> DIGIT LIT {
+$$ = new Int();
+$$.size = $2.size+1;
+$$.v = $2.v+(int)Math.pow(10,$1.size)*$1.v;
+} | DIGIT {
+$$ = $1;
+} ;
+
+DIGIT -> "0" {$$=new Int(0);} | "1" {$$=new Int(1);} | "2" {$$=new Int(2);}
+| "3" {$$=new Int(3);} | "4" {$$=new Int(4);} | "5" {$$=new Int(5);} | "6" {$$=new Int(6);}
+| "7" {$$=new Int(7);} | "8" {$$=new Int(8);} | "9" {$$=new Int(9);} ;
+
+ALNUM -> DIGIT {$$=""+$1;} | ALPHA {$$=$1;} ;
+ALNUMS -> ALNUM ALNUMS {$$=$1+$2;} | "" {$$="";};
+VAR -> ALPHA ALNUMS {$$=$1+$2;} ;
+
+ALPHA ->
+"a" {$$="a";} |
+"b" {$$="b";} |
+"c" {$$="c";} |
+"d" {$$="d";} |
+"e" {$$="e";} |
+"f" {$$="f";} |
+"g" {$$="g";} |
+"h" {$$="h";} |
+"i" {$$="i";} |
+"j" {$$="j";} |
+"k" {$$="k";} |
+"l" {$$="l";} |
+"m" {$$="m";} |
+"n" {$$="n";} |
+"o" {$$="o";} |
+"p" {$$="p";} |
+"q" {$$="q";} |
+"r" {$$="r";} |
+"s" {$$="s";} |
+"t" {$$="t";} |
+"u" {$$="u";} |
+"v" {$$="v";} |
+"w" {$$="w";} |
+"x" {$$="x";} |
+"y" {$$="y";} |
+"z" {$$="z";} ;
