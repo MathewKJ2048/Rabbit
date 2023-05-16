@@ -1,0 +1,179 @@
+{
+	import java.util.*;
+}
+{
+	static class Node
+	{
+		Node op1;
+		Node op2;
+		String operator;
+		String operand;
+		Node()
+		{
+		}
+		void print()
+		{
+			if(op1==null&&op2==null)System.out.print(operand);
+			else if(op2==null)
+			{
+				System.out.print(operator);
+				System.out.print("(");
+				op1.print();
+				System.out.print(")");
+			}
+			else
+			{
+				System.out.print("(");
+				op1.print();
+				System.out.print(")");
+				System.out.print(operator);
+				System.out.print("(");
+            	op2.print();
+            	System.out.print(")");
+			}
+		}
+	}
+	static Node root;
+	public static void main(String[] args)
+	{
+		String input = "";
+		Scanner sc = new Scanner(System.in);
+		input = sc.nextLine();
+		Parser p = new Parser(input);
+		if(p._parse())
+		{
+			System.out.println("Valid formula");
+			root.print();
+			System.out.println("\n----");
+			remove_WM(root);
+			clear_FG(root);
+			Node t = new Node();
+			t.op1 = root;
+			migrate_negation(root,t,true);
+			t.op1.print();
+		}
+		else
+		{
+			System.out.println("INValid formula");
+		}
+	}
+	public static void migrate_negation(Node n, Node p, boolean is_left) // p is parent, n is current node
+	{
+		if(n==null)return;
+		if(n.operator=="NOT"&&n.op1.operator!=null)
+		{
+			Node child = n.op1;
+			if(child.operator=="NOT")
+            {
+            	Node q = child.op1;
+                  if(is_left)p.op1=q;
+                  else p.op2=q;
+                  migrate_negation(q,p,is_left);
+                  return;
+            }
+            else
+            {
+            if(is_left)p.op1=child;
+            else p.op2=child;
+            if(child.operator=="AND")child.operator="OR";
+            else if(child.operator=="OR")child.operator="AND";
+            else if(child.operator=="U")child.operator="R";
+            else if(child.operator=="R")child.operator="U";
+            Node q = child.op1;
+            Node r = child.op2;
+            if(q!=null)
+            {
+            System.out.println("Callllll");
+            	Node t = new Node();
+            	t.operator = "NOT";
+            	t.op1 = q;
+            	child.op1 = t;
+            	migrate_negation(t,child,true);
+            }
+            if(r!=null)
+            {
+            	Node t = new Node();
+                t.operator = "NOT";
+                t.op1 = r;
+                child.op2 = t;
+                migrate_negation(t,child,false);
+            }
+            return;
+            }
+		}
+		migrate_negation(n.op1,n,true);
+		migrate_negation(n.op2,n,false);
+	}
+	public static void clear_FG(Node n)
+	{
+		if(n==null)return;
+		if(n.operator==("F") || n.operator==("G"))
+		{
+			n.operator = "U";
+			n.op2 = n.op1;
+			n.op1 = new Node();
+			n.op1.operand=n.operator==("F")?"true":"false";
+		}
+		clear_FG(n.op1);
+		clear_FG(n.op2);
+	}
+	public static void remove_WM(Node n)
+	{
+		if(n==null)return;
+		if(n.operator==("M"))
+		{
+			Node left = new Node();
+			left.op1 = n.op1;
+			left.op2 = n.op2;
+			left.operator = "R";
+
+			Node right = new Node();
+			right.op1 = n.op2;
+			right.operator = "F";
+
+			n.operator="AND";
+			n.op1=left;
+			n.op2=right;
+		}
+		else if(n.operator==("W"))
+		{
+			Node left = new Node();
+            			left.op1 = n.op1;
+            			left.op2 = n.op2;
+            			left.operator = "U";
+
+            			Node right = new Node();
+            			right.op1 = n.op2;
+            			right.operator = "G";
+
+            			n.operator="OR";
+            			n.op1=left;
+            			n.op2=right;
+		}
+		remove_WM(n.op1);
+		remove_WM(n.op2);
+	}
+}
+{
+	Node S A B C ;
+	String Num N TO1 TO2 ;
+}
+
+P -> S {root=$1;} ;
+S -> A OR S {$$=new Node(); $$.operator="OR"; $$.op1 = $1; $$.op2 = $3;};
+OR -> "\\/" ;
+S -> A {$$=$1;};
+A -> B AND A {$$=new Node(); $$.operator="AND"; $$.op1 = $1; $$.op2 = $3;} ;
+AND -> "/\\" ;
+A -> B {$$=$1;};
+B -> C TO2 B {$$=new Node(); $$.operator=$2; $$.op1 = $1; $$.op2 = $3;} ;
+B -> C {$$=$1;};
+C -> NOT C {$$=new Node(); $$.operator="NOT"; $$.op1 = $2;} ;
+NOT -> "~" ;
+C -> TO1 C {$$=new Node(); $$.operator=$1; $$.op1 = $2;} ;
+C -> "(" S ")" {$$=$2;} ;
+TO1 -> "X" {$$="X";} | "G" {$$="G";} | "F" {$$="F";} ;
+TO2 -> "U" {$$="U";} | "W" {$$="W";} | "R" {$$="R";} | "M" {$$="M";} ;
+C ->  "p" Num {$$=new Node(); $$.operand="p"+$2;} ;
+N -> "1" {$$="1";} | "2" {$$="2";} | "3" {$$="3";} | "4" {$$="4";} | "5" {$$="5";} | "6" {$$="6";} | "7" {$$="7";} | "8" {$$="8";} | "9" {$$="9";} | "0" {$$="0";}  ;
+Num -> N Num {$$=$1+$2;} | N {$$=$1;} ;
